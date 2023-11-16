@@ -1,14 +1,13 @@
 # video_sharing_website_frontend_vuejs
+This project aim to demostrate how Video Sharing Website can be developed using PHP + Laravel
 
-This template should help get you started developing with Vue 3 in Vite.
+Home page
 
-## Recommended IDE Setup
+<img src="public/home.jpg">
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Video page
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+<img src="public/video.jpg">
 
 ## Project Setup
 
