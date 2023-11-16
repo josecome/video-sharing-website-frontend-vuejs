@@ -6,6 +6,7 @@ import axios from 'axios'
 const route = useRoute()
 const localToken = ref('no_token')
 const video = ref([])
+const list_of_videos = ref([])
 const link = ref(`http://127.0.0.1:8000/api/video/${ route.params.id }`)
 
 const getData = async () => {
@@ -18,12 +19,23 @@ const getData = async () => {
     }
   })
   console.log(res.data)
-  video.value = res.data.data
-  console.log(res)
-  console.log(link.value)
+  video.value = res.data.data   
 }
-
-onMounted(getData)
+ 
+  const getDataOptionsOfVideos = async () => {
+  const v = { categories: 'all' }
+  const resOptionsOfVideos = await axios.get(`${ link.value }/options_of_videos`, v, {
+    headers: {
+      Accept: 'application/json',
+      //'Content-Type': 'application/json',
+      Authorization: `Bearer ${localToken.value}`
+    }
+  })
+  console.log(resOptionsOfVideos.data)
+  list_of_videos.value  = resOptionsOfVideos.data;
+}
+onMounted( getData )
+onMounted( getDataOptionsOfVideos )
 </script>
 
 <template>
@@ -44,8 +56,8 @@ onMounted(getData)
                     </div>
                 </td>
                 <td>
-                    <!-- <div>
-                        <div v-for="video in videos" class="card" style="width: 18rem; padding: 10px; margin: 10px;">
+                    <div>
+                        <div v-for="video in list_of_videos" class="card" style="width: 18rem; padding: 10px; margin: 10px;">
                             <a 
                             :href="`/video/${ video.id }`">
                             <img 
@@ -56,13 +68,13 @@ onMounted(getData)
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">{{ video.title_of_video }}</h5>
-                                <p class="card-text">{{ video.user }}</p>
+                                <p class="card-text">{{ video.user_id }}</p>
                                 <p class="card-text" style="font-size: 11px;">
-                                <i class="bi bi-eye" style="padding-right: 4px;">{{ ' ' . video.views }}</i> {{ video.created_at }}
+                                <i class="bi bi-eye" style="padding-right: 4px;">{{ video.views }}</i> {{ video.created_at }}
                                 </p>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                 </td>
             </tr>
         </table>
