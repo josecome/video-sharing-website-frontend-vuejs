@@ -9,9 +9,9 @@ video: {
 </script>
 <template>
   <div class="card"  style="width: 18rem; padding: 10px; margin: 10px;">
-    <a href="/videos/{{ video.id }}">
+    <a :href="`/video/${ video.id }`">
       <img
-        :src="'http://127.0.0.1:8000/storage/video_images/' + video.video_image"
+        :src="`http://127.0.0.1:8000/storage/video_images/${ video.video_image }`"
         class="card-img-top imgb"
         alt="..."
       />
