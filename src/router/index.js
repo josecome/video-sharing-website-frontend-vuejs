@@ -9,7 +9,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
-    }, 
+    },
     {
       path: '/video/:id',
       name: 'video',

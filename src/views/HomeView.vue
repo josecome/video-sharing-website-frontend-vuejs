@@ -31,9 +31,7 @@ onMounted(getData)
         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
         style="color: #0606a7; width: 100%; background-color: #d6dcd7; border-radius: 32px"
       >
-        <Cart v-for="v in list_of_video"
-            :video="v"
-        /> 
+        <Cart v-for="v in list_of_video" :video="v" />
       </div>
     </div>
   </main>

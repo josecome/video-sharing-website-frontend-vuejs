@@ -1,14 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 
 const route = useRoute()
 const localToken = ref('no_token')
 const video = ref([])
-const list_of_videos = ref([])
-const likes = ref(0)
-const link = ref(`http://127.0.0.1:8000/api/video/${ route.params.id }`)
+const video_like = ref(0)
+const video_love = ref(0)
+const video_sad = ref(0)
+
+const comment_like = ref(0)
+const comment_love = ref(0)
+const comment_sad = ref(0)
+
+const list_of_videos = ref([1, 2, 3, 4])
+const link = ref(`http://127.0.0.1:8000/api/video/${route.params.id}`)
 
 const getData = async () => {
   const v = { categories: 'all' }
@@ -20,12 +27,15 @@ const getData = async () => {
     }
   })
   console.log(res.data)
-  video.value = res.data.data   
+  video.value = res.data.data
+  video_like.value = Object.keys(res.data.data.likes.filter(v => v.type === 'like')).length;
+  video_love.value = Object.keys(res.data.data.likes.filter(v => v.type === 'love')).length;
+  video_sad.value = Object.keys(res.data.data.likes.filter(v => v.type === 'sad')).length;
 }
- 
-  const getDataOptionsOfVideos = async () => {
+
+const getDataOptionsOfVideos = async () => {
   const v = { categories: 'all' }
-  const resOptionsOfVideos = await axios.get(`${ link.value }/options_of_videos`, v, {
+  const resOptionsOfVideos = await axios.get(`${link.value}/options_of_videos`, v, {
     headers: {
       Accept: 'application/json',
       //'Content-Type': 'application/json',
@@ -33,54 +43,92 @@ const getData = async () => {
     }
   })
   //console.log(resOptionsOfVideos.data)
-  list_of_videos.value  = resOptionsOfVideos.data;
+  list_of_videos.value = resOptionsOfVideos.data
 }
-function getLikes(v){
-    for(var like in v){likes++}
-}
-onMounted( getData )
-onMounted( getDataOptionsOfVideos )
+
+onMounted(getData)
+onMounted(getDataOptionsOfVideos)
 </script>
 
 <template>
-            <table>
-            <tr>
-                <td style="vertical-align: top;">
-                   <video width="800" height="350" style="margin-top: 0px;" controls>
-                        <source src="" type="video/mp4">
-                    </video>   <br />
-                    <h2>{{ video.title_of_video }}</h2>
-                    <br />
-                    <div>
-                        <div v-for="comment in video.comments" class="card w-75 mb-3" style="background-color: #D6DCD7; width: 800px;">
-                            <div class="card-body">
-                                <p class="card-text">{{ comment.comment }}</p>
-                                <br /><i class="bi bi-hand-thumbs-up">{{ Object.keys(comment.likes).length }}</i>                                
-                            </div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <div v-for="video in list_of_videos" class="card" style="width: 18rem; padding: 10px; margin: 10px;">
-                            <a 
-                            :href="`/video/${ video.id }`">
-                            <img 
-                            :src="`http://127.0.0.1:8000/storage/video_images/${ video.video_image }`"
-                              class="card-img-top"
-                              style="width: 260px; height: 200px;"
-                              alt="...">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">{{ video.title_of_video }}</h5>
-                                <p class="card-text">{{ video.user_id }}</p>
-                                <p class="card-text" style="font-size: 11px;">
-                                <i class="bi bi-eye" style="padding-right: 4px;">{{ video.views }}</i> {{ video.created_at }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+  <table>
+    <tr>
+      <td style="vertical-align: top">
+        <video width="800" height="350" style="margin-top: 0px" controls>
+          <source src="" type="video/mp4" />
+        </video>
+        <br />
+        <table>
+          <tr>
+            <td>
+              <h2>{{ video.title_of_video }}</h2>
+            </td>
+            <td style="width: 300px; text-align: right;">
+              <button 
+              style="margin-right: 20px; padding: 8px; border: 1px solid gray; border-radius: 26px; background-color: #6D6D6C; color: white;">
+                Subscribe
+              </button>
+              <i class="bi bi-hand-thumbs-up" style="padding-right: 10px">
+                {{ video_like }}
+              </i>
+              <i class="bi bi bi-heart" style="padding-right: 10px">
+                {{ video_love }}
+              </i>
+              <i class="bi bi-hand-thumbs-down" style="padding-right: 10px">
+                {{ video_sad }}
+              </i>
+            </td>
+          </tr>
         </table>
+        <br />
+        <div>
+          <div
+            v-for="comment in video.comments"
+            class="card w-75 mb-3"
+            style="background-color: #d6dcd7; width: 800px"
+          >
+            <div class="card-body">
+              <p class="card-text">{{ comment.comment }}</p>
+              <br />
+              <i class="bi bi-hand-thumbs-up" style="padding-right: 10px">
+                {{ Object.keys(comment.likes.filter((like) => like.type === 'like')).length }}
+              </i>
+              <i class="bi bi bi-heart" style="padding-right: 10px">
+                {{ Object.keys(comment.likes.filter((like) => like.type === 'love')).length }}
+              </i>
+              <i class="bi bi-hand-thumbs-down" style="padding-right: 10px">
+                {{ Object.keys(comment.likes.filter((like) => like.type === 'sad')).length }}
+              </i>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div>
+          <div
+            v-for="video in list_of_videos"
+            class="card"
+            style="width: 18rem; padding: 10px; margin: 10px"
+          >
+            <a :href="`/video/${video.id}`">
+              <img
+                :src="`http://127.0.0.1:8000/storage/video_images/${video.video_image}`"
+                class="card-img-top"
+                style="width: 260px; height: 200px"
+                alt="..."
+              />
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">{{ video.title_of_video }}</h5>
+              <p class="card-text">{{ video.user_id }}</p>
+              <p class="card-text" style="font-size: 11px">
+                <i class="bi bi-eye" style="padding-right: 4px">{{ video.views }}</i>
+                {{ video.created_at }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
 </template>

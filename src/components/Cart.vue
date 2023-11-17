@@ -1,17 +1,17 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 defineProps({
-video: {
+  video: {
     type: String,
     required: true
-  },
+  }
 })
 </script>
 <template>
-  <div class="card"  style="width: 18rem; padding: 10px; margin: 10px;">
-    <a :href="`/video/${ video.id }`">
+  <div class="card" style="width: 18rem; padding: 10px; margin: 10px">
+    <a :href="`/video/${video.id}`">
       <img
-        :src="`http://127.0.0.1:8000/storage/video_images/${ video.video_image }`"
+        :src="`http://127.0.0.1:8000/storage/video_images/${video.video_image}`"
         class="card-img-top imgb"
         alt="..."
       />
