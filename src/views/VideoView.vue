@@ -7,6 +7,7 @@ const route = useRoute()
 const localToken = ref('no_token')
 const video = ref([])
 const list_of_videos = ref([])
+const likes = ref(0)
 const link = ref(`http://127.0.0.1:8000/api/video/${ route.params.id }`)
 
 const getData = async () => {
@@ -31,8 +32,11 @@ const getData = async () => {
       Authorization: `Bearer ${localToken.value}`
     }
   })
-  console.log(resOptionsOfVideos.data)
+  //console.log(resOptionsOfVideos.data)
   list_of_videos.value  = resOptionsOfVideos.data;
+}
+function getLikes(v){
+    for(var like in v){likes++}
 }
 onMounted( getData )
 onMounted( getDataOptionsOfVideos )
@@ -51,6 +55,7 @@ onMounted( getDataOptionsOfVideos )
                         <div v-for="comment in video.comments" class="card w-75 mb-3" style="background-color: #D6DCD7; width: 800px;">
                             <div class="card-body">
                                 <p class="card-text">{{ comment.comment }}</p>
+                                <br /><i class="bi bi-hand-thumbs-up">{{ Object.keys(comment.likes).length }}</i>                                
                             </div>
                         </div>
                     </div>
