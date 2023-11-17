@@ -120,10 +120,10 @@ onMounted(getDataOptionsOfVideos)
             </a>
             <div class="card-body">
               <h5 class="card-title">{{ video.title_of_video }}</h5>
-              <p class="card-text">{{ video.user_id }}</p>
+              <p class="card-text">{{ video.user.name }}</p>
               <p class="card-text" style="font-size: 11px">
                 <i class="bi bi-eye" style="padding-right: 4px">{{ video.views }}</i>
-                {{ video.created_at }}
+                {{ `${ video.created_at.split('-')[2].charAt(0)}${ video.created_at.split('-')[2].charAt(1)}/${ video.created_at.split('-')[1]}/${ video.created_at.split('-')[0]}` }}
               </p>
             </div>
           </div>
