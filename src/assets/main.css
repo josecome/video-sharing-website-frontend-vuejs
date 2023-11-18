@@ -8,6 +8,16 @@
     font-size: 32px;
     padding-left: 10px;
   }
+  .userstylepic2 {
+    background-color: #aed6f1;
+    width: 28px;
+    height: 28px;
+    float: left;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 18px;
+    padding-left: 10px;
+  }
   .divcommentstyle {
     width: 80%;
     border: 1px solid gray;

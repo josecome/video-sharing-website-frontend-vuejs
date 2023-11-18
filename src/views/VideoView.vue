@@ -121,6 +121,11 @@ onBeforeMount(getDataOptionsOfVideos)
         <br />
         <div>
           <div class="card-body divcommentstyle container">
+            <a :href="''" class="userstylepic2" style="text-decoration: none;">
+                <strong style="color: white">
+                  {{ video.user.split('')[0] }}
+                </strong>
+              </a>
             <input
                   type="text"
                   class="commentcontent"
