@@ -93,6 +93,11 @@ onBeforeMount(getDataOptionsOfVideos)
         <table>
           <tr>
             <td>
+              <a :href="''" class="userstylepic" style="text-decoration: none;">
+                <strong style="color: white">
+                  {{ video.user.split('')[0] }}
+                </strong>
+              </a>
               <span style="font-size: 22px; font-weight: bold;">{{ video.title_of_video }}</span><br />
               <i class="bi bi-eye ib">{{ ' ' + video.views }}</i>
             </td>

@@ -21,7 +21,7 @@ defineProps({
       <p class="card-text">{{ video.user }}</p>
       <p class="card-text pb">
         <i class="bi bi-eye ib">{{ ' ' + video.views }}</i>
-        {{ video.created_at }}
+        {{ `${ video.created_at.split('-')[2].charAt(0)}${ video.created_at.split('-')[2].charAt(1)}/${ video.created_at.split('-')[1]}/${ video.created_at.split('-')[0]}` }}
       </p>
     </div>
   </div>
