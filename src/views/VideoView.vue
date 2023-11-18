@@ -13,8 +13,9 @@ const video_sad = ref(0)
 import { useStoreVideo } from '@/stores/video_store'
 import { storeToRefs } from 'pinia'
 const video_store = useStoreVideo()
-const { sendLike, statusOfLike, SourceType, SourceId, TypeOfLike } = storeToRefs(video_store)
+const { statusOfLike, SourceType, SourceId, TypeOfLike } = storeToRefs(video_store)
 const list_of_videos = ref([1, 2, 3, 4])
+
 const link = ref(`http://127.0.0.1:8000/api/video/${route.params.id}`)
 
 const getData = async () => {
@@ -45,37 +46,11 @@ const getDataOptionsOfVideos = async () => {
   //console.log(resOptionsOfVideos.data)
   list_of_videos.value = resOptionsOfVideos.data
 }
-async function sendData(vtype_of_like, vpost_id) {
-  let rs_response = ''
-  let lnk = ''
-
-  if (vtype_of_like === 'like') {
-    lnk = `${link.value}addremovelike`
-  } else if (vtype_of_like === 'comment') {
-    lnk = `${link.value}addcomment`
-  }
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-  const v = { post_id: vpost_id, type_of_like: vtype_of_like, txt: commenttxt }
-  await axios
-    .post(lnk, v, {
-      headers: {
-        'X-CSRFToken': csrftoken
-      }
-    })
-    .then(
-      (response) => {
-        rs_response = response.data
-        console.log('rs: ' + rs_response)
-        if (vtype_of_like === 'like') {
-          getData('postlikes')
-        } else if (vtype_of_like === 'comment') {
-          getData('postcomments')
-        }
-      },
-      (error) => {
-        rs_response = error
-      }
-    )
+async function sendData(type_of_like, source_type, source_id) {
+  SourceType.value = source_type
+  SourceId.value = source_id
+  TypeOfLike = type_of_like
+  video_store.sendLike
 }
 onBeforeMount(getData)
 onBeforeMount(getDataOptionsOfVideos)
