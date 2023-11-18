@@ -7,7 +7,7 @@ Home page
 
 Video page
 
-<img src="public/video.jpg">
+<img src="public/video2.jpg">
 
 Video Upload page
 

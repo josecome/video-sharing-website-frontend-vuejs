@@ -73,7 +73,7 @@ onBeforeMount(getDataOptionsOfVideos)
                   {{ video.user.split('')[0] }}
                 </strong>
               </a>
-              <span style="font-size: 22px; font-weight: bold;">{{ video.title_of_video }}</span><br />
+              <span style="font-size: 22px; font-weight: bold;">{{ video.user }}</span><br />
               <i class="bi bi-eye ib">{{ ' ' + video.views }}</i>
             </td>
             <td style="width: 300px; text-align: right;">
