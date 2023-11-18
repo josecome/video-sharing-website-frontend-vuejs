@@ -9,6 +9,10 @@ Video page
 
 <img src="public/video.jpg">
 
+Video Upload page
+
+<img src="public/studio_upload.jpg">
+
 ## Project Setup
 
 ```sh
