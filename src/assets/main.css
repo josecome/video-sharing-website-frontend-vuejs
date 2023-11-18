@@ -8,3 +8,19 @@
     font-size: 32px;
     padding-left: 10px;
   }
+  .divcommentstyle {
+    width: 80%;
+    border: 1px solid gray;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    padding: 2px 4px;
+    display: inline-block;
+  }
+  .commentcontent {
+    margin: 8px;
+    width: 80%;
+  }

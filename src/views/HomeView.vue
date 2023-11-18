@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import axios from 'axios'
 import Cart from '../components/Cart.vue'
 
@@ -21,7 +21,7 @@ const getData = async () => {
   //console.log(res)
 }
 
-onMounted(getData)
+onBeforeMount(getData)
 </script>
 
 <template>

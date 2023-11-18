@@ -120,6 +120,15 @@ onBeforeMount(getDataOptionsOfVideos)
         </table>
         <br />
         <div>
+          <div class="card-body divcommentstyle container">
+            <input
+                  type="text"
+                  class="commentcontent"
+                  onChange="(e) => { setPostCommenttxt(e.target.value)}"
+                  placeholder="Write a comment..."
+                />
+                <button type="button" class="btn btn-light" style="margin-left: 10px; font-style: italic;">Post</button>
+            </div>
           <div
             v-for="comment in video.comments"
             class="card w-75 mb-3"
