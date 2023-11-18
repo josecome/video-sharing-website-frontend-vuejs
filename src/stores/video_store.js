@@ -2,13 +2,16 @@ import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-export const useStoreVideo = defineStore('video_store', (TypeOfLike) => {
+export const useStoreVideo = defineStore('video_store', () => {
   const localToken = ref('no_token')
   const link = ref('')
   const statusOfLike = ref(false)
+  const SourceType = ref('')
+  const SourceId = ref(0)
+  const TypeOfLike = ref('')
 
   const postData = async () => {
-    const v = { type_of_like: TypeOfLike }
+    const v = { source_type: SourceType.value, source_id: SourceId.value, type_of_like: TypeOfLike.value }
     const res = await axios.post(link.value, v, {
       headers: {
         Accept: 'application/json',
@@ -24,5 +27,5 @@ export const useStoreVideo = defineStore('video_store', (TypeOfLike) => {
     postData() === 'success'? statusOfLike.value = true : statusOfLike.value = false
   }
 
-  return { sendLike, statusOfLike }
+  return { sendLike, statusOfLike, SourceType, SourceId, TypeOfLike }
 })

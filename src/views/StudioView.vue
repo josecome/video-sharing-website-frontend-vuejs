@@ -1,3 +1,6 @@
+<script setup>
+import Upload from '../components/Upload.vue'
+</script>
 <template>
     <div class="container-fluid">
         <div class="row">
@@ -37,9 +40,7 @@
                         </div>
                     </div>
                 </div>
-                    <div>
-                        Test
-                    </div>
+                <Upload />    
             </main>
         </div>        
     </div>

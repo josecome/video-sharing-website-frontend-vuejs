@@ -1,5 +1,5 @@
 <template>
-        <h1 style="text-align: center;">Drag & Drop to Upload File</h1>
+        <h3 style="text-align: center;">Drag & Drop to Upload Video</h3>
     <div id="uploadimg" class="center" style="background-color: #F8F9F9; text-align: center;">
         <input type="file" class="upload_file" id="uploadfile" multiple>
         <label for="uploadfile" id="lbluploadfile">
@@ -17,3 +17,30 @@
 
     </div>
 </template>
+<style scoped>
+.center {
+    margin: auto;
+    width: 50%;
+    height: 440px;
+    padding: 10px;
+    border: 1px solid gray;
+  }
+  .upload_file {
+    z-index: 6;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+
+  #lbluploadfile {
+    position: absolute;
+    left: 58%;
+    top: 70%;
+    transform: translate(-50%, -40%);
+    z-index: 4;
+  }
+
+  #choosefile {
+    z-index: 4;
+  }
+</style>

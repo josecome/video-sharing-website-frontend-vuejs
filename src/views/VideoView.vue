@@ -13,7 +13,7 @@ const video_sad = ref(0)
 import { useStoreVideo } from '@/stores/video_store'
 import { storeToRefs } from 'pinia'
 const video_store = useStoreVideo()
-const { sendLike, statusOfLike } = storeToRefs(video_store)
+const { sendLike, statusOfLike, SourceType, SourceId, TypeOfLike } = storeToRefs(video_store)
 const list_of_videos = ref([1, 2, 3, 4])
 const link = ref(`http://127.0.0.1:8000/api/video/${route.params.id}`)
 
