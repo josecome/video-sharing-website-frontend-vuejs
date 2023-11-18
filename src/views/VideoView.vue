@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, onBeforeMount, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 
@@ -14,6 +14,10 @@ const comment_like = ref(0)
 const comment_love = ref(0)
 const comment_sad = ref(0)
 
+import { useStoreVideo } from '@/stores/video_store'
+import { storeToRefs } from 'pinia'
+const video_store = useStoreVideo()
+const { sendLike, statusOfLike } = storeToRefs(video_store)
 const list_of_videos = ref([1, 2, 3, 4])
 const link = ref(`http://127.0.0.1:8000/api/video/${route.params.id}`)
 
@@ -45,9 +49,40 @@ const getDataOptionsOfVideos = async () => {
   //console.log(resOptionsOfVideos.data)
   list_of_videos.value = resOptionsOfVideos.data
 }
+async function sendData(vtype_of_like, vpost_id) {
+  let rs_response = ''
+  let lnk = ''
 
-onMounted(getData)
-onMounted(getDataOptionsOfVideos)
+  if (vtype_of_like === 'like') {
+    lnk = `${link.value}addremovelike`
+  } else if (vtype_of_like === 'comment') {
+    lnk = `${link.value}addcomment`
+  }
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  const v = { post_id: vpost_id, type_of_like: vtype_of_like, txt: commenttxt }
+  await axios
+    .post(lnk, v, {
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
+    })
+    .then(
+      (response) => {
+        rs_response = response.data
+        console.log('rs: ' + rs_response)
+        if (vtype_of_like === 'like') {
+          getData('postlikes')
+        } else if (vtype_of_like === 'comment') {
+          getData('postcomments')
+        }
+      },
+      (error) => {
+        rs_response = error
+      }
+    )
+}
+onBeforeMount(getData)
+onBeforeMount(getDataOptionsOfVideos)
 </script>
 
 <template>
@@ -68,13 +103,13 @@ onMounted(getDataOptionsOfVideos)
               style="margin-right: 20px; padding: 8px; border: 1px solid gray; border-radius: 26px; background-color: #6D6D6C; color: white;">
                 Subscribe
               </button>
-              <i class="bi bi-hand-thumbs-up" style="padding-right: 10px">
+              <i class="bi bi-hand-thumbs-up" @click="() => sendData('like', 'video', `${ video.id }`)" style="padding-right: 10px">
                 {{ video_like }}
               </i>
-              <i class="bi bi bi-heart" style="padding-right: 10px">
+              <i class="bi bi bi-heart" @click="() => sendData('love', 'video', `${ video.id }`)" style="padding-right: 10px">
                 {{ video_love }}
               </i>
-              <i class="bi bi-hand-thumbs-down" style="padding-right: 10px">
+              <i class="bi bi-hand-thumbs-down" @click="() => sendData('sad', 'video', `${ video.id }`)" style="padding-right: 10px">
                 {{ video_sad }}
               </i>
             </td>
@@ -90,13 +125,13 @@ onMounted(getDataOptionsOfVideos)
             <div class="card-body">
               <p class="card-text">{{ comment.comment }}</p>
               <br />
-              <i class="bi bi-hand-thumbs-up" style="padding-right: 10px">
+              <i class="bi bi-hand-thumbs-up" @click="() => sendData('like', 'comment', `${ comment.id }`)" style="padding-right: 10px">
                 {{ Object.keys(comment.likes.filter((like) => like.type === 'like')).length }}
               </i>
-              <i class="bi bi bi-heart" style="padding-right: 10px">
+              <i class="bi bi bi-heart" @click="() => sendData('love', 'comment', `${ comment.id }`)" style="padding-right: 10px">
                 {{ Object.keys(comment.likes.filter((like) => like.type === 'love')).length }}
               </i>
-              <i class="bi bi-hand-thumbs-down" style="padding-right: 10px">
+              <i class="bi bi-hand-thumbs-down" @click="() => sendData('sad', 'comment', `${ comment.id }`)" style="padding-right: 10px">
                 {{ Object.keys(comment.likes.filter((like) => like.type === 'sad')).length }}
               </i>
             </div>
