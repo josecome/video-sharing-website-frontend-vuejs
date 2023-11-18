@@ -10,10 +10,6 @@ const video_like = ref(0)
 const video_love = ref(0)
 const video_sad = ref(0)
 
-const comment_like = ref(0)
-const comment_love = ref(0)
-const comment_sad = ref(0)
-
 import { useStoreVideo } from '@/stores/video_store'
 import { storeToRefs } from 'pinia'
 const video_store = useStoreVideo()
@@ -93,10 +89,12 @@ onBeforeMount(getDataOptionsOfVideos)
           <source src="" type="video/mp4" />
         </video>
         <br />
+        <h2>{{ video.title_of_video }}</h2>
         <table>
           <tr>
             <td>
-              <h2>{{ video.title_of_video }}</h2>
+              <span style="font-size: 22px; font-weight: bold;">{{ video.title_of_video }}</span><br />
+              <i class="bi bi-eye ib">{{ ' ' + video.views }}</i>
             </td>
             <td style="width: 300px; text-align: right;">
               <button 
